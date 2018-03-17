@@ -1,5 +1,5 @@
 package domain
 
 type Requester interface {
-	post(endpoint string, image *Image) error
+	Post(endpoint string, image *Image) error
 }

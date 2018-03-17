@@ -2,25 +2,27 @@ package app
 
 import "github.com/prokosna/medusa_eye/domain"
 
-type Processor interface {
-	Process() error
-}
-
-type ProcessorImpl struct {
+type Processor struct {
 	encoder   *domain.Encoder
 	recorder  *domain.Recorder
 	requester *domain.Requester
+	config    *domain.Config
 }
 
-func NewProcessorImpl(encoder *domain.Encoder, recorder *domain.Recorder, requester *domain.Requester) *ProcessorImpl {
-	return &ProcessorImpl{
+func NewProcessor(
+	encoder *domain.Encoder,
+	recorder *domain.Recorder,
+	requester *domain.Requester,
+	config *domain.Config) *Processor {
+	return &Processor{
 		encoder:   encoder,
 		recorder:  recorder,
 		requester: requester,
+		config:    config,
 	}
 }
 
-func (p *ProcessorImpl) Process() error {
-
+func (p Processor) Process() error {
+	p.recorder.Initialize()
 	return nil
 }
