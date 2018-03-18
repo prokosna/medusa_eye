@@ -40,3 +40,7 @@
 [[constraint]]
   name = "github.com/blackjack/webcam"
   version = "0.3.0"
+
+[[constraint]]
+  name = "github.com/pixiv/go-libjpeg"
+  version = "0.2.0"

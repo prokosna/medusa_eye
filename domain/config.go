@@ -1,26 +1,11 @@
 package domain
 
 type Config struct {
-	FrameRate uint32
-	Endpoint  string
-	CameraId  string
-	Device    string
+	FrameRate   uint32
+	Endpoint    string
+	CameraId    string
+	Device      string
+	FrameFormat string
+	FrameWidth  uint32
+	FrameHeight uint32
 }
-
-//type ConfigImpl struct {
-//	FrameRate uint32
-//	Endpoint  string
-//	CameraId  string
-//}
-//
-//func (c ConfigImpl) GetFrameRate() uint32 {
-//	return c.FrameRate
-//}
-//
-//func (c ConfigImpl) GetEndpoint() string {
-//	return c.Endpoint
-//}
-//
-//func (c ConfigImpl) GetCameraId() string {
-//	return c.CameraId
-//}

@@ -1,5 +1,7 @@
 package infra
 
+import "encoding/base64"
+
 type EncoderBase64 struct{}
 
 func NewEncoderBase64() *EncoderBase64 {
@@ -7,11 +9,9 @@ func NewEncoderBase64() *EncoderBase64 {
 }
 
 func (e *EncoderBase64) Encode(raw []byte) string {
-	// TODO: Unimplemented
-	return "Temporary encoded value"
+	return base64.StdEncoding.EncodeToString(raw)
 }
 
-func (e *EncoderBase64) Decode(encoded string) []byte {
-	// TODO: Unimplemented
-	return []byte("Temporary decoded value")
+func (e *EncoderBase64) Decode(encoded string) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(encoded)
 }

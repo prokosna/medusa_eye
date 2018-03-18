@@ -4,7 +4,10 @@ import (
 	"sync"
 	"time"
 
+	"fmt"
+
 	"github.com/prokosna/medusa_eye/domain"
+	"github.com/prokosna/medusa_eye/util"
 )
 
 type Processor struct {
@@ -36,7 +39,7 @@ func (p Processor) Process() error {
 
 	t := time.NewTicker(time.Duration(1.0/float32(p.config.FrameRate)*1000000000) * time.Nanosecond)
 	wg := sync.WaitGroup{}
-	errCh := make(chan error)
+	errCh := make(chan error, 1000)
 	for {
 		select {
 		case <-t.C:
@@ -49,17 +52,27 @@ func (p Processor) Process() error {
 					errCh <- err
 					return
 				}
+				if frame == nil {
+					return
+				}
 
 				enc := p.encoder.Encode(frame.Data)
 
 				image := domain.Image{
 					CameraId:  p.config.CameraId,
 					ImageId:   frame.Id,
-					Width:     frame.Width,
-					Height:    frame.Height,
 					Timestamp: frame.Timestamp,
 					Data:      enc,
 				}
+
+				// -- Debugging --
+				err = util.WriteFile(image.ImageId, frame.Data)
+				if err != nil {
+					errCh <- err
+					return
+				}
+				fmt.Printf("%+v", image)
+				// ------------
 
 				err = p.publisher.Publish(p.config.Endpoint, &image)
 				if err != nil {

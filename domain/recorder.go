@@ -12,6 +12,6 @@ type Frame struct {
 
 type Recorder interface {
 	Initialize() error
-	GetFrame() (Frame, error)
+	GetFrame() (*Frame, error)
 	Close() error
 }
