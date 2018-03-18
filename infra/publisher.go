@@ -37,7 +37,7 @@ func (p *PublisherHttp) Publish(endpoint string, image *domain.Image) error {
 
 	resp, err := p.client.Do(req)
 	if err != nil {
-		return nil
+		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {

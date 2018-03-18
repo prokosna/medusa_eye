@@ -123,13 +123,15 @@ func (r *RecorderWebcam) GetFrame() (*domain.Frame, error) {
 }
 
 func (r *RecorderWebcam) Close() error {
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
+	r.mutex.RLock()
 	if !r.isInitialized {
 		return errors.New("RecorderWebcam has not been initialized yet")
 	}
+	r.mutex.RUnlock()
 	r.quit <- true
 	r.wg.Wait()
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	err := r.camera.Close()
 	if err != nil {
 		return err
