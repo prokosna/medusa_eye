@@ -2,65 +2,35 @@ package main
 
 import (
 	"github.com/fgrosse/goldi"
+	"github.com/prokosna/medusa_eye/app"
+	"github.com/prokosna/medusa_eye/domain"
+	"github.com/prokosna/medusa_eye/infra"
+	"github.com/satori/go.uuid"
 )
 
-type Repository interface {
-	Select() string
-	Update(value string)
-}
-
-type RepositoryImpl struct {
-	text string
-}
-
-func NewRepositoryImpl() *RepositoryImpl {
-	println("New RepositoryImpl")
-	return &RepositoryImpl{text: "default"}
-}
-
-func (r *RepositoryImpl) Select() string {
-	return r.text
-}
-
-func (r *RepositoryImpl) Update(value string) {
-	r.text = value
-}
-
-type Service interface {
-	Execute() string
-}
-
-type ServiceImpl struct {
-	repository Repository
-}
-
-func NewServiceImpl(repository Repository) *ServiceImpl {
-	println("New ServiceImpl")
-	return &ServiceImpl{repository: repository}
-}
-
-func (s *ServiceImpl) Execute() string {
-	return s.repository.Select()
-}
-
 func main() {
-	registry := goldi.NewTypeRegistry()
-	config := map[string]interface{}{
-		"timeout": 42,
+	// Config
+	conf := domain.Config{
+		FrameRate: 10,
+		Endpoint:  "http://www.example.com/",
+		CameraId:  uuid.NewV4().String(),
+		Device: "",
 	}
+
+	// DI
+	registry := goldi.NewTypeRegistry()
+	config := map[string]interface{}{}
 	container := goldi.NewContainer(registry, config)
+	container.RegisterType("Encoder", infra.NewEncoderBase64)
+	container.RegisterType("Publisher", infra.NewPublisherHttp)
+	container.RegisterType("Recorder", infra.NewRecorderWebcam, conf)
+	container.RegisterType("Processor", app.NewProcessor,
+		"@Encoder",
+		"@Recorder",
+		"@Publisher",
+		conf)
 
-	container.RegisterType("Repository", NewRepositoryImpl)
-	container.RegisterType("Service", NewServiceImpl, "@Repository")
-
-	repository := container.MustGet("Repository").(Repository)
-	println(repository.Select())
-	repository.Update("changed")
-	println(repository.Select())
-	service := container.MustGet("Service").(Service)
-	println(service.Execute())
-	repository.Update("again!")
-	println(repository.Select())
-	println(service.Execute())
-	println("End!")
+	// Application start
+	processor := container.MustGet("Processor").(*app.Processor)
+	processor.Process()
 }

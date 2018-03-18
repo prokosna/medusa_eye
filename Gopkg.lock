@@ -2,14 +2,35 @@
 
 
 [[projects]]
+  name = "github.com/blackjack/webcam"
+  packages = [
+    ".",
+    "ioctl"
+  ]
+  revision = "dba29cd98b67338ba06da65a102550592eed5426"
+  version = "v0.3"
+
+[[projects]]
   name = "github.com/fgrosse/goldi"
   packages = ["."]
   revision = "8bb09dd2be1b6e592353f4a02532860835d771fa"
   version = "v1.0.0"
 
+[[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "2f1e207ee39ff70f3433e49c6eb52677a515e3b5"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6b16313bc86024c3433173415041f96d474ef43081fa96a1fa6434a0de2ff391"
+  inputs-digest = "831fbb07ba7f18592aaffe0b01cd625999cbc35ad37adc1fde85f681a94c2c01"
   solver-name = "gps-cdcl"
   solver-version = 1
