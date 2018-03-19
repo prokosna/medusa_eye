@@ -27,7 +27,7 @@ func NewProcessor(
 	}
 }
 
-func (p Processor) Process() error {
+func (p *Processor) Process() error {
 	err := p.recorder.Initialize()
 	if err != nil {
 		return err

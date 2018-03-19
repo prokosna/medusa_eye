@@ -43,8 +43,8 @@ build: deps fmt
 
 ## Build binaries
 cross-build: deps fmt
-	for os in darwin linux windows; do \
-		for arch in amd64 386; do \
+	for os in linux; do \
+		for arch in amd64 386 arm; do \
 			env GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 go build -a -tags netgo -installsuffix netgo -o dist/$$os-$$arch/$(NAME); \
 		done; \
 	done

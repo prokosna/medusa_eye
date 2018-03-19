@@ -3,9 +3,10 @@ package infra
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+
 	"errors"
 	"io/ioutil"
-	"net/http"
 
 	"github.com/prokosna/medusa_eye/domain"
 )
