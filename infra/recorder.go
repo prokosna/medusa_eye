@@ -8,8 +8,13 @@ import (
 
 	"fmt"
 
+	"bytes"
+	"image"
+	"io"
+
 	"github.com/blackjack/webcam"
 	"github.com/labstack/gommon/log"
+	"github.com/pixiv/go-libjpeg/jpeg"
 	"github.com/prokosna/medusa_eye/domain"
 )
 
@@ -110,6 +115,27 @@ func (r *RecorderWebcam) GetFrame() (*domain.Frame, error) {
 	if r.latestFrame == nil {
 		return nil, nil
 	}
+
+	// Some devices send incorrect format JPEG
+	// Make sure that the data is correct JPEG by decode-encoding
+	var data []byte
+	reader := bytes.NewReader(r.latestFrame)
+	_, format, err := image.Decode(reader)
+	if err != nil || format != "jpeg" {
+		reader.Seek(0, io.SeekStart)
+		img, err := jpeg.Decode(reader, &jpeg.DecoderOptions{})
+		if err != nil {
+			return nil, err
+		}
+		writer := new(bytes.Buffer)
+		err = jpeg.Encode(writer, img, &jpeg.EncoderOptions{Quality: 100})
+		if err != nil {
+			return nil, err
+		}
+		data = writer.Bytes()
+	} else {
+		data = r.latestFrame
+	}
 	defer func() {
 		r.imageId += 1
 	}()
@@ -117,7 +143,7 @@ func (r *RecorderWebcam) GetFrame() (*domain.Frame, error) {
 		Id:        r.imageId,
 		Width:     r.width,
 		Height:    r.height,
-		Data:      r.latestFrame,
+		Data:      data,
 		Timestamp: time.Now(),
 	}, nil
 }

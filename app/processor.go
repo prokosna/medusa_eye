@@ -4,10 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"fmt"
-
 	"github.com/prokosna/medusa_eye/domain"
-	"github.com/prokosna/medusa_eye/util"
 )
 
 type Processor struct {
@@ -66,12 +63,12 @@ func (p Processor) Process() error {
 				}
 
 				// -- Debugging --
-				err = util.WriteFile(image.ImageId, frame.Data)
-				if err != nil {
-					errCh <- err
-					return
-				}
-				fmt.Printf("%+v", image)
+				//err = util.WriteFile(image.ImageId, frame.Data)
+				//if err != nil {
+				//	errCh <- err
+				//	return
+				//}
+				//fmt.Printf("%+v", image)
 				// ------------
 
 				err = p.publisher.Publish(p.config.Endpoint, &image)
@@ -86,5 +83,4 @@ func (p Processor) Process() error {
 		default:
 		}
 	}
-	return nil
 }
