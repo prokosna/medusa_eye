@@ -38,7 +38,7 @@ func NewRecorderWebcam(config domain.Config) *RecorderWebcam {
 		camera:        nil,
 		isInitialized: false,
 		mutex:         new(sync.RWMutex),
-		imageId:       0,
+		imageId:       1,
 		quit:          make(chan bool),
 		wg:            sync.WaitGroup{},
 		latestFrame:   nil,
