@@ -22,13 +22,14 @@ func NewPublisherHttp() *PublisherHttp {
 }
 
 func (p *PublisherHttp) Publish(endpoint string, image *domain.Image) error {
+	url := endpoint + "medusa/" + image.CameraId + "/frames"
 	body, err := json.Marshal(image)
 	if err != nil {
 		return err
 	}
 	req, err := http.NewRequest(
 		"POST",
-		endpoint,
+		url,
 		bytes.NewBuffer(body),
 	)
 	if err != nil {

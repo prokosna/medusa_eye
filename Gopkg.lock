@@ -47,12 +47,6 @@
   version = "v0.2"
 
 [[projects]]
-  name = "github.com/satori/go.uuid"
-  packages = ["."]
-  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
-  version = "v1.2.0"
-
-[[projects]]
   name = "github.com/urfave/cli"
   packages = ["."]
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
@@ -79,6 +73,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "53d0f77f45492eeabbab04abe860c1919c177c837c88b572fec0ebe9ffefcfdb"
+  inputs-digest = "e88c06636d396e6de620d015ea9b5b43e6a889ca79c54560eea7b721ae2bd80f"
   solver-name = "gps-cdcl"
   solver-version = 1

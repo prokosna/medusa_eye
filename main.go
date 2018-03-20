@@ -65,7 +65,7 @@ func main() {
 				},
 				cli.StringFlag{
 					Name:        "url, U",
-					Value:       "http://localhost:8080/api/v1/medusa/frames",
+					Value:       "http://localhost:8080/api/v1/",
 					Usage:       "URL of the endpoint",
 					Destination: &endpoint,
 				},
