@@ -12,11 +12,11 @@ import (
 	"github.com/prokosna/medusa_eye/app"
 	"github.com/prokosna/medusa_eye/domain"
 	"github.com/prokosna/medusa_eye/infra"
-	"github.com/satori/go.uuid"
 	"github.com/urfave/cli"
 )
 
 var (
+	id       string
 	device   string
 	format   string
 	width    uint
@@ -33,6 +33,12 @@ func main() {
 			Name:  "execute",
 			Usage: "Execute main process to stream video frames to the API server",
 			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:        "id, I",
+					Value:       "test",
+					Usage:       "ID of this device (used as a topic of messages)",
+					Destination: &id,
+				},
 				cli.StringFlag{
 					Name:        "device, D",
 					Value:       "/dev/video0",
@@ -75,7 +81,7 @@ func main() {
 				conf := domain.Config{
 					FrameRate:   uint32(fps),
 					Endpoint:    endpoint,
-					CameraId:    uuid.NewV4().String(),
+					CameraId:    id,
 					Device:      device,
 					FrameFormat: format,
 					FrameWidth:  uint32(width),
