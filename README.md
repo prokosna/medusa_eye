@@ -1,9 +1,7 @@
 # Medusa Eye
 
-## Usage
+cf. [Medusa](https://github.com/prokosna/medusa)
 
-```
-$ sudo apt install libjpeg-turbo8
-$ go install github.com/prokosna/medusa_eye
-$ medusa_eye --help
-```
+## Prerequisite
+
+- libjpeg-turbo
